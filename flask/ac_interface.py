@@ -1,3 +1,6 @@
+#!/usr/bin/env python2
+# -*- coding: utf-8 -*-
+
 import ConfigParser, time
 from flask import Flask, render_template
 from collections import OrderedDict
