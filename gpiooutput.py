@@ -12,7 +12,7 @@ try:
     while True:
         GPIO.output(22, True)
         time.sleep(2)
-        GPIO.output(11, False)
+        GPIO.output(22, False)
         time.sleep(2)
 
 except KeyboardInterrupt:
