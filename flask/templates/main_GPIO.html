@@ -6,18 +6,10 @@
 <body>
    <h1>PiGoSemiPro - possible actions</h1>
 
-   {% for pin in pins %}
    <p>
    <FORM>
-      <INPUT TYPE="button" onClick="parent.location='/{{pin}}/toggle'" VALUE="{{ pins[pin].name }}">
-   </FORM>   
-   </p>
-   {% endfor %}
-
-   <p>
-   <FORM>
-      <INPUT TYPE="button" onClick="parent.location='/startstop'" VALUE="{{ startStopBtnMsg }} PiGoSemiPro">
-   </FORM>   
+      <INPUT TYPE="button" onClick="parent.location='/{{pin}}/toggle'" VALUE="Toggle">
+   </FORM>
    </p>
 
    {% if message %}
