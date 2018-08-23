@@ -6,13 +6,13 @@ import time, sys
 
 GPIO.setmode(GPIO.BOARD)
 
-GPIO.setup(22, GPIO.OUT)
+GPIO.setup(15, GPIO.OUT)
 
 try:
     while True:
-        GPIO.output(22, True)
+        GPIO.output(15, True)
         time.sleep(2)
-        GPIO.output(22, False)
+        GPIO.output(15, False)
         time.sleep(2)
 
 except KeyboardInterrupt:
