@@ -1,20 +1,35 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 
+import RPi.GPIO as GPIO
 import ConfigParser, time
 from flask import Flask, render_template
 from collections import OrderedDict
 app = Flask(__name__)
 
+GPIO.setmode(GPIO.BOARD)
+
 # OUT pin used to contol whatever
 CONTROLPIN = 15
-# msg describing current state of pin
-pinStateMsg = "on"
+
+GPIO.setup(CONTROLPIN, GPIO.OUT)
+GPIO.output(CONTROLPIN, GPIO.LOW)
+
+def checkPin(pincheck):
+    if GPIO.input(pincheck) == GPIO.HIGH:
+        msg = "it be ON"
+    else:
+        msg = "it be OFF"
+
+    return msg
 
 @app.route("/")
 def main():
+    # check pin state
+    pinStateMsg = checkPin(CONTROLPIN)
+
     templateData = {
-        'startStopBtnMsg' : pinStateMsg
+        'startStopBtnMsg' : pinStateMsg,
         'pin' : CONTROLPIN
         }
     # Pass the template data into the template main_GPIO.html and return it to the user
@@ -25,18 +40,20 @@ def main():
 def action(changePin):
     # Convert the pin from the URL into an integer:
     changePin = int(changePin)
-    # Get the device name for the pin being changed:
+    # Set device name:
     deviceName = "A/C unit"
-    # simulate button press
-    # Read the pin and set it to whatever it isn't (that is, toggle it) and then set it back:
-    time.sleep(0.2)
+    # Read the pin and set it to whatever it isn't (that is, toggle it):
+    GPIO.output(changePin, not GPIO.input(changePin))
+
     message = "Toggled " + deviceName + "."
 
-    # Along with the pin dictionary, put the message into the template data dictionary:
+    # check pin state
+    pinStateMsg = checkPin(CONTROLPIN)
+
     templateData = {
-        'startStopBtnMsg' : pinStateMsg
-        'pin' : CONTROLPIN
-        'message' : message,
+        'startStopBtnMsg' : pinStateMsg,
+        'pin' : CONTROLPIN,
+        'message' : message
     }
 
     return render_template('main_GPIO.html', **templateData)
